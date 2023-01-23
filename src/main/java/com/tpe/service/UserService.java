@@ -27,7 +27,11 @@ public class UserService {
         if(userRepository.existsByUserName(registerRequest.getUserName())) { //username control
             throw new ConflictException("Girdiğiniz username kullanımda");
         }
-        
+
+        Role role = roleRepository.findByName(UserRole.ROLE_STUDENT).orElseThrow( //role getir
+                ()-> new ResourceNotFoundException("Role bilgisi bulunamadı")
+        );
+
         Set<Role> roles = new HashSet<>(); //rolleri ata
         roles.add(role);
         User user = new User(); //Dto'yu User'a çevir
