@@ -20,13 +20,14 @@ public class UserDetailsImpl implements UserDetails {
 
     private String userName;
 
-    @JsonIgnore // client tarafına giderse , password gitmesin
+    @JsonIgnore // Userdetails client tarafına giderse , password gitmesin
     private String password;
 
+    //GrantedAuthority extends edilen herhangi bir class olabilir. (Role yerine)
     private  Collection<? extends GrantedAuthority> authorities;
 
-    public static UserDetailsImpl build(User user) {
-        List<SimpleGrantedAuthority> authorities = user.getRoles().stream().
+    public static UserDetailsImpl build(User user) { // User'ı userdetails'e çeviren metodh
+        List<SimpleGrantedAuthority> authorities = user.getRoles().stream(). //rolleri GrantedAuthority'ye çevir
                 map(role-> new SimpleGrantedAuthority(role.getName().name())).
                 collect(Collectors.toList());
         return new UserDetailsImpl(user.getId(),
@@ -35,10 +36,6 @@ public class UserDetailsImpl implements UserDetails {
                 authorities);
 
     }
-
-
-
-
 
 
 
